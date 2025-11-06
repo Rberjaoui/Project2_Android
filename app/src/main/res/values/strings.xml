@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">LabAndroidDemo</string>
+    <string name="app_name" translatable="false">JackRush</string>
+    <string name="welcome_user">Welcome user</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="account">Account</string>
+    <string name="play">PLAY!</string>
+    <string name="balance">Balance: $$$</string>
+    <string name="enter_bet_amount">Enter bet amount:</string>
+    <string name="start">Start</string>
+    <string name="type_in_amount">Type in amount</string>
 </resources>
