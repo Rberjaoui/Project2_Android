@@ -1,8 +1,10 @@
 package com.example.labandroiddemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 public class LoginActivity extends MainActivity {
     private ActivityLoginBinding binding;
@@ -63,5 +65,13 @@ public class LoginActivity extends MainActivity {
                 binding.userNameLogIn.setSelection(0);
             }
         });
+    }
+
+    private void ToastMaker(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    static Intent loginIntentFactory(Context context) {
+        return new Intent(context, LoginActivity.class);
     }
 }
