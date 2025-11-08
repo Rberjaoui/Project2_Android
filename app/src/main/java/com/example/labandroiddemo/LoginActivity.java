@@ -1,5 +1,6 @@
 package com.example.labandroiddemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -30,5 +31,37 @@ public class LoginActivity extends MainActivity {
         });
     }
 
+    private void verifyUser() {
+        String username = binding.userNameLogIn.getText().toString();
+        String password = binding.passwordLogIn.getText().toString();
+        if (username.isEmpty()) {
+            ToastMaker("Username should not be blank!");
+            return;
+        }
 
+        LiveData<User> userObserver = repository.getUserByUserName(username);
+        userObserver.observe(this, user -> {
+            if (user != null) {
+                if(password.equals(user.getPassword())) {
+                    if (user.isAdmin()) {
+                        ToastMaker("Welcome Admin!");
+                    }
+                    else {
+                        Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId());
+                        startActivity(intent);
+                    }
+                    userObserver.removeObservers(this);
+                    finish();
+                }
+                else {
+                    ToastMaker("Invalid password");
+                    binding.passwordLogIn.setSelection(0);
+                }
+            }
+            else {
+                ToastMaker(String.format("No User %s found", username));
+                binding.userNameLogIn.setSelection(0);
+            }
+        });
+    }
 }
