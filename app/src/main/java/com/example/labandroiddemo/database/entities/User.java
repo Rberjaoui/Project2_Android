@@ -3,6 +3,8 @@ package com.example.labandroiddemo.database.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.labandroiddemo.database.BlackJackDatabase;
+
 import java.util.Objects;
 
 @Entity(tableName = BlackJackDatabase.USER_TABLE)

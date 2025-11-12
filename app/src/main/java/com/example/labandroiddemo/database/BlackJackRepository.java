@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.labandroiddemo.database.entities.User;
+
 import java.util.List;
 
 public class BlackJackRepository {
