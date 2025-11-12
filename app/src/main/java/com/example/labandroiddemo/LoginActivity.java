@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.lifecycle.LiveData;
+
+import com.example.labandroiddemo.database.BlackJackRepository;
+import com.example.labandroiddemo.database.entities.User;
+import com.example.labandroiddemo.databinding.ActivityLoginBinding;
+
 public class LoginActivity extends MainActivity {
     private ActivityLoginBinding binding;
     private BlackJackRepository repository;
