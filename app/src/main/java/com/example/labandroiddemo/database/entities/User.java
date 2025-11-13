@@ -3,9 +3,11 @@ package com.example.labandroiddemo.database.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.labandroiddemo.database.BlackJackDatabase;
+
 import java.util.Objects;
 
-@Entity(tableName = GymLogDatabase.USER_TABLE)
+@Entity(tableName = BlackJackDatabase.USER_TABLE)
 public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;
