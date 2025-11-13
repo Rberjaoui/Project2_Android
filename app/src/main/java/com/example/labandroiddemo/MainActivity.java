@@ -1,27 +1,22 @@
 package com.example.labandroiddemo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.labandroiddemo.databinding.ActivityMainBinding;
-
 
 public class MainActivity extends AppCompatActivity {
-
-    ActivityMainBinding binding;
+    private static final String USER_ID_KEY = "com.example.labandroiddemo.USER_ID_KEY";
     @Override
-
-    private JackRushViewModel  jackRushViewModel;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_main);
-
-        jackRushViewModel = new ViewModelProvider(this).get(jackRushViewModel.class);
-
-
-
     }
 
+    public static Intent mainActivityIntentFactory(Context context, int userId) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(USER_ID_KEY, userId);
+        return intent;
+    }
 }

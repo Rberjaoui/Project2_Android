@@ -9,4 +9,9 @@
     <string name="enter_bet_amount">Enter bet amount:</string>
     <string name="start">Start</string>
     <string name="type_in_amount">Type in amount</string>
+    <string name="login_welcome">Please log in</string>
+    <string name="Username">username</string>
+    <string name="Password">password</string>
+    <string name="Login">Log in</string>
+    <string name="Signup">Sign up</string>
 </resources>

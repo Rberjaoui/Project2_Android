@@ -10,7 +10,9 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.labandroiddemo.database.entities.BlackJack;
 import com.example.labandroiddemo.database.entities.User;
+import com.example.labandroiddemo.database.typeconverters.LocalDateTypeConverter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,6 +21,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {BlackJack.class, User.class}, version = 1, exportSchema = false)
 public abstract class BlackJackDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
+    private static final String TAG = "BlackJackDatabase";
     private static final String DATABASE_NAME = "BlackJackdatabase";
     public static final String blackJackTable = "blackJackTable";
     private static volatile BlackJackDatabase INSTANCE;
@@ -40,24 +43,24 @@ public abstract class BlackJackDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static final RoomDatabase.Callback addDefaultValues = new RoomDatabase.Callback() {
+    private static final Callback addDefaultValues = new Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            Log.i(MainActivity.TAG, "Database Created!");
+            Log.i(TAG, "Database Created!");
             super.onCreate(db);
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
-                User admin = new User("Admin1", "admin1");
+                User admin = new User("admin2", "admin2");
                 admin.setAdmin(true);
                 dao.insert(admin);
 
-                User testUser1 = new User("Testuser1", "testuser1");
+                User testUser1 = new User("testuser1", "testuser1");
                 dao.insert(testUser1);
             });
         }
     };
 
-    public abstract BlackJackDAO gymLogDAO();
+    public abstract BlackJackDAO blackJackDAO();
 
     public abstract UserDAO userDAO();
 }
