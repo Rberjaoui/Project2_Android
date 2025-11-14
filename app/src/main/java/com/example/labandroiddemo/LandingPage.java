@@ -1,5 +1,88 @@
 package com.example.labandroiddemo;
 
-public class LandingPage {
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+
+import com.example.labandroiddemo.database.BlackJackRepository;
+import com.example.labandroiddemo.database.entities.User;
+import com.example.labandroiddemo.databinding.ActivityLoginBinding;
+import com.example.labandroiddemo.databinding.LandingPageBinding;
+
+public class LandingPage extends AppCompatActivity {
+
+    private int loggedInUserId = -1;
+    private User user;
+    private LandingPageBinding binding;
+
+    private BlackJackRepository repository;
+    private static final int LOGGED_OUT = -1;
+    static final String SHARED_PREFERENCE_USERID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
+
+    private static final String MAIN_ACTIVITY_USER_ID = "com.example.labandroiddemo.MAIN_ACTIVITY_USER_ID";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = LandingPageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        repository = BlackJackRepository.getRepository(getApplication());
+        loginUser(savedInstanceState);
+
+    }
+
+    private void loginUser(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
+
+        loggedInUserId = sharedPreferences.getInt(getString(R.string.preference_userId_key), LOGGED_OUT);
+
+        if(loggedInUserId == LOGGED_OUT && savedInstanceState != null &&  savedInstanceState.containsKey(SHARED_PREFERENCE_USERID_KEY)){
+            loggedInUserId = savedInstanceState.getInt(SHARED_PREFERENCE_USERID_KEY, LOGGED_OUT);
+        }
+        if(loggedInUserId == LOGGED_OUT){
+            loggedInUserId = getIntent().getIntExtra(MAIN_ACTIVITY_USER_ID, LOGGED_OUT);
+        }
+        // if not logged in return to main
+        if(loggedInUserId == LOGGED_OUT){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
+        userObserver.observe(this, user -> {
+            this.user = user;
+            if(this.user != null) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                return;
+            }
+            binding.adminTextview.setText("Welcome " + user.getUsername() + "!");
+
+            if(user.isAdmin()){
+                binding.adminTextview.setVisibility(View.VISIBLE);
+                binding.adminButt.setVisibility(View.VISIBLE);
+            } else {
+                binding.adminTextview.setVisibility(View.INVISIBLE);
+                binding.adminButt.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.logout_menu, menu);
+        return true;
+    }
 
 }

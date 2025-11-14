@@ -14,4 +14,8 @@
     <string name="Password">password</string>
     <string name="Login">Log in</string>
     <string name="Signup">Sign up</string>
+    <string name="preference_file_key">preferenceFileNameJackRush\n</string>
+    <string name="preference_userId_key">jackRushPreferenceUserIdKey</string>
+    <string name="welcome">Welcome</string>
+    <string name="cont">CONTINUE</string>
 </resources>
