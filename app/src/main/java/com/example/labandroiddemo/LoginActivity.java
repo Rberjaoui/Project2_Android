@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.example.labandroiddemo.database.BlackJackRepository;
 import com.example.labandroiddemo.database.entities.User;
 import com.example.labandroiddemo.databinding.ActivityLoginBinding;
 
-public class LoginActivity extends MainActivity {
+public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private BlackJackRepository repository;
 
@@ -34,7 +35,7 @@ public class LoginActivity extends MainActivity {
         binding.signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastMaker("Sign Up button clicked!"); // Placeholder
+                ToastMaker("Sign Up button clicked!");
             }
         });
     }
@@ -51,11 +52,12 @@ public class LoginActivity extends MainActivity {
         userObserver.observe(this, user -> {
             if (user != null) {
                 if(password.equals(user.getPassword())) {
+                    Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId());
                     if (user.isAdmin()) {
                         ToastMaker("Welcome Admin!");
+                        startActivity(intent);
                     }
                     else {
-                        Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId());
                         startActivity(intent);
                     }
                     userObserver.removeObservers(this);
