@@ -52,7 +52,9 @@ public class LoginActivity extends AppCompatActivity {
         userObserver.observe(this, user -> {
             if (user != null) {
                 if(password.equals(user.getPassword())) {
-                    Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId());
+                    Intent intent = new Intent(this, LandingPage.class);
+                    intent.putExtra("com.example.labandroiddemo.MAIN_ACTIVITY_USER_ID", user.getId());
+
                     if (user.isAdmin()) {
                         ToastMaker("Welcome Admin!");
                         startActivity(intent);
