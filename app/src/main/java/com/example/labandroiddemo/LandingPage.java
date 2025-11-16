@@ -2,19 +2,22 @@ package com.example.labandroiddemo;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.example.labandroiddemo.database.BlackJackRepository;
 import com.example.labandroiddemo.database.entities.User;
-import com.example.labandroiddemo.databinding.ActivityLoginBinding;
 import com.example.labandroiddemo.databinding.LandingPageBinding;
 
 public class LandingPage extends AppCompatActivity {
@@ -22,7 +25,6 @@ public class LandingPage extends AppCompatActivity {
     private int loggedInUserId = -1;
     private User user;
     private LandingPageBinding binding;
-
     private BlackJackRepository repository;
     private static final int LOGGED_OUT = -1;
     static final String SHARED_PREFERENCE_USERID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
@@ -62,7 +64,7 @@ public class LandingPage extends AppCompatActivity {
         LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
         userObserver.observe(this, user -> {
             this.user = user;
-            if(this.user != null) {
+            if(this.user == null) { // user not found
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
                 return;
@@ -70,6 +72,7 @@ public class LandingPage extends AppCompatActivity {
             binding.adminTextview.setText("Welcome " + user.getUsername() + "!");
 
             if(user.isAdmin()){
+                binding.adminTextview.setText("Welcome Admin!");
                 binding.adminTextview.setVisibility(View.VISIBLE);
                 binding.adminButt.setVisibility(View.VISIBLE);
             } else {
@@ -83,6 +86,62 @@ public class LandingPage extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.logout_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.logoutMenuItem);
+        item.setVisible(true);
+        if(user == null){
+            return true;
+        }
+        item.setTitle(user.getUsername());
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                showLogoutDialog();
+                // logout();
+                return false;
+            }
+        });
+        return true;
+    }
+
+    private void showLogoutDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(LandingPage.this);
+        final AlertDialog alertDialog = alertBuilder.create(); // ensures one alert at a time; instantiates it
+
+        alertBuilder.setMessage("Logout?");
+
+        alertBuilder.setPositiveButton("Logout!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                logout();
+            }
+        });
+        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertBuilder.create().show();
+    }
+
+    private void logout() { // logging the user out
+        loggedInUserId = LOGGED_OUT;
+        updateSharedPreferences();
+        getIntent().putExtra(MAIN_ACTIVITY_USER_ID,LOGGED_OUT);
+        startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+    }
+
+    private void updateSharedPreferences(){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPrefEditor  = sharedPreferences.edit();
+        sharedPrefEditor.putInt(getString(R.string.preference_userId_key),loggedInUserId);
+        sharedPrefEditor.apply();
+
     }
 
 }

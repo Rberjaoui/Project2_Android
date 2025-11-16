@@ -1,11 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">JackRush</string>
-    <string name="welcome_user">Welcome user</string>
     <string name="log_out">LOG OUT</string>
-    <string name="leaderboard">Leaderboard</string>
     <string name="account">Account</string>
-    <string name="play">PLAY!</string>
-    <string name="balance">Balance: $$$</string>
     <string name="enter_bet_amount">Enter bet amount:</string>
     <string name="start">Start</string>
     <string name="type_in_amount">Type in amount</string>
@@ -16,6 +12,10 @@
     <string name="Signup">Sign up</string>
     <string name="preference_file_key">preferenceFileNameJackRush\n</string>
     <string name="preference_userId_key">jackRushPreferenceUserIdKey</string>
-    <string name="welcome">Welcome</string>
-    <string name="cont">CONTINUE</string>
+    <string name="Welcome">Welcome</string>
+    <string name="play">PLAY</string>
+    <string name="bet_amt">Enter bet amount:</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="more">More</string>
+    <string name="money">$$$</string>
 </resources>
