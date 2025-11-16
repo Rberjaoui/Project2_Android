@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.labandroiddemo.database.entities.BlackJack;
 import com.example.labandroiddemo.database.entities.User;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class BlackJackRepository {
 
     private BlackJackRepository(Application application) {
         BlackJackDatabase db = BlackJackDatabase.getDatabase(application);
-        this.blackJackDAO = db.blackjackDAO();
+        this.blackJackDAO = db.blackJackDAO();
         this.userDAO = db.userDAO();
     }
 
