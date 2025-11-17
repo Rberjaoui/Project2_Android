@@ -34,13 +34,6 @@ public class LoginActivity extends AppCompatActivity {
                 verifyUser();
             }
         });
-
-        binding.signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastMaker("Sign Up button clicked!");
-            }
-        });
     }
 
     private void verifyUser() {

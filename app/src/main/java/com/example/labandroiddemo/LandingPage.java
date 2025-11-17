@@ -59,7 +59,7 @@ public class LandingPage extends AppCompatActivity {
         if(loggedInUserId == LOGGED_OUT){
             loggedInUserId = getIntent().getIntExtra(MAIN_ACTIVITY_USER_ID, LOGGED_OUT);
         }
-        // if not logged in return to main
+
         if(loggedInUserId == LOGGED_OUT){
             return;
         }
@@ -69,7 +69,7 @@ public class LandingPage extends AppCompatActivity {
             this.user = user;
             Log.d("LandingPage", ">>> user=" + (user == null ? "null" : user.getUsername())
                     + ", isAdmin=" + (user != null && user.isAdmin()));
-            if(this.user == null) { // user not found
+            if(this.user == null) {
                 invalidateOptionsMenu();
             }
            binding.adminTextview.setText("Welcome " + user.getUsername() + "!");
@@ -111,7 +111,7 @@ public class LandingPage extends AppCompatActivity {
 
     private void showLogoutDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(LandingPage.this);
-        final AlertDialog alertDialog = alertBuilder.create(); // ensures one alert at a time; instantiates it
+        final AlertDialog alertDialog = alertBuilder.create();
 
         alertBuilder.setMessage("Logout?");
 
@@ -131,7 +131,7 @@ public class LandingPage extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
-    private void logout() { // logging the user out
+    private void logout() {
         loggedInUserId = LOGGED_OUT;
         updateSharedPreferences();
         getIntent().putExtra(MAIN_ACTIVITY_USER_ID,loggedInUserId);
