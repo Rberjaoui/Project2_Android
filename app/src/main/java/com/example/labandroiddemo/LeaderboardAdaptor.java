@@ -13,13 +13,13 @@ import com.example.labandroiddemo.database.entities.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.UserViewHolder> {
+public class LeaderboardAdaptor extends RecyclerView.Adapter<LeaderboardAdaptor.UserViewHolder> {
     private List<User> users = new ArrayList<>();
 
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.leaderboard_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_leaderboard_item, parent, false);
         return new UserViewHolder(itemView);
     }
 
