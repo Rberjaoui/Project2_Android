@@ -18,4 +18,7 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="more">More</string>
     <string name="money">$$$</string>
+    <string name="acct">Already have an account?</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="log_in">LOG IN</string>
 </resources>

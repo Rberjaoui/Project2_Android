@@ -98,7 +98,7 @@ public class LandingPage extends AppCompatActivity {
         if(user == null){
             return true;
         }
-        item.setTitle(user.getUsername());
+        item.setTitle("LOG OUT");
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {

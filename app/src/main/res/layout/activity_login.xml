@@ -7,18 +7,18 @@
     android:background="@color/navy">
 
     <TextView
+        android:id="@+id/titleLogInTextView"
         android:layout_width="match_parent"
         android:layout_height="150dip"
-        android:id="@+id/titleLogInTextView"
-        android:textSize="42sp"
+        android:layout_margin="16dip"
+        android:layout_marginTop="88dp"
+        android:gravity="center"
         android:text="@string/login_welcome"
         android:textColor="@color/cardview_light_background"
-        android:gravity="center"
-        android:layout_margin="16dip"
-        android:layout_marginBottom="24dip"
+        android:textSize="42sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:layout_width="match_parent"
