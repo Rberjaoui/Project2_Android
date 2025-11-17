@@ -42,7 +42,7 @@
     <EditText
         android:layout_width="200dp"
         android:layout_height="50dp"
-       android:hint="@string/money"
+        android:hint="@string/money"
         android:textColor="@color/white"
         android:textColorHint="@color/grey"
         android:inputType="numberDecimal"
@@ -70,7 +70,7 @@
         />
 
     <Button
-        android:id="@+id/leaderboard"
+        android:id="@+id/leaderboardButton"
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
@@ -96,7 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboardButton"
         app:layout_constraintVertical_bias="0.028"
         tools:visibility="visible" />
 

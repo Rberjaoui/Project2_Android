@@ -3,6 +3,7 @@ package com.example.labandroiddemo;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,11 @@ public class LandingPage extends AppCompatActivity {
         repository = BlackJackRepository.getRepository(getApplication());
 
         loginUser(savedInstanceState);
+
+        binding.leaderboardButton.setOnClickListener(v -> {
+            Intent intent = LeaderboardActivity.leaderboardIntentFactory(getApplicationContext());
+            startActivity(intent);
+        });
 
         Toast.makeText(this, "LandingPage started!", Toast.LENGTH_SHORT).show();
         Log.d("LandingPage", ">>> onCreate reached");
