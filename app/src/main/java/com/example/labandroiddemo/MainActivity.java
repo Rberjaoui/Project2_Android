@@ -3,6 +3,9 @@ package com.example.labandroiddemo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -11,7 +14,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.landing_page);
+        setContentView(R.layout.activity_main);
+
+        Button loginButton = findViewById(R.id.button2);
+        Button signupButton = findViewById(R.id.button);
+
+        loginButton.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+        });
+
+        signupButton.setOnClickListener(v -> {
+            Toast.makeText(MainActivity.this, "Coming soon...", Toast.LENGTH_SHORT).show();
+        });
     }
 
     public static Intent mainActivityIntentFactory(Context context, int userId) {

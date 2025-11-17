@@ -23,6 +23,9 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
         repository = BlackJackRepository.getRepository(getApplication());
 
         binding.logInButton.setOnClickListener(new View.OnClickListener() {
@@ -83,5 +86,11 @@ public class LoginActivity extends AppCompatActivity {
 
     static Intent loginIntentFactory(Context context) {
         return new Intent(context, LoginActivity.class);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
