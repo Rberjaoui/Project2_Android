@@ -21,4 +21,9 @@
     <string name="acct">Already have an account?</string>
     <string name="sign_up">SIGN UP</string>
     <string name="log_in">LOG IN</string>
+    <string name="name">name</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="sign">Sign up</string>
+    <string name="remember_me">Remember me</string>
 </resources>
