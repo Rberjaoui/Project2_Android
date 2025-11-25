@@ -2,8 +2,6 @@ package com.example.labandroiddemo;
 
 import android.os.Bundle;
 
-import com.example.labandroiddemo.databinding.SignUpBinding;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
