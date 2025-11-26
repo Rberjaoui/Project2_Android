@@ -39,19 +39,6 @@
         app:layout_constraintTop_toBottomOf="@+id/adminTextview"
         app:layout_constraintVertical_bias="0.222" />
 
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:hint="@string/money"
-        android:textColor="@color/white"
-        android:textColorHint="@color/grey"
-        android:inputType="numberDecimal"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/betAmt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
 
     <Button
         android:id="@+id/play"
