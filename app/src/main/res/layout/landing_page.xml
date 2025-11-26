@@ -18,48 +18,62 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.237"
-        tools:text="Welcome"
+        app:layout_constraintVertical_bias="0.143"
+        tools:text="Welcome to JackRush"
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/betAmt"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:id="@+id/phrase"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
         android:gravity="center"
-        android:text="@string/bet_amt"
+        android:text="Want to try your luck without losing your life savings? \n with JackRush you can play for FREE!"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/adminButt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adminTextview"
-        app:layout_constraintVertical_bias="0.222" />
+        app:layout_constraintVertical_bias="0.024" />
 
+    <TextView
+        android:id="@+id/howtoplay"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:text="How to play: \n ... \n ... "
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:textSize="17sp"
+        app:layout_constraintTop_toBottomOf="@+id/phrase"
+        app:layout_constraintVertical_bias="0.06"
+        tools:layout_editor_absoluteX="-5dp" />
 
     <Button
         android:id="@+id/play"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
         android:layout_marginTop="116dp"
+        android:backgroundTint="@color/purple"
         android:text="@string/play"
         android:textSize="20sp"
-        android:backgroundTint="@color/purple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adminTextview"
-        app:layout_constraintVertical_bias="0.247"
-        />
+        app:layout_constraintVertical_bias="0.401" />
 
     <Button
         android:id="@+id/leaderboardButton"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:text="@string/leaderboard"
         android:textSize="20sp"
@@ -72,8 +86,8 @@
 
     <Button
         android:id="@+id/adminButt"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/purple"
         android:text="@string/more"
@@ -86,6 +100,20 @@
         app:layout_constraintTop_toBottomOf="@+id/leaderboardButton"
         app:layout_constraintVertical_bias="0.028"
         tools:visibility="visible" />
+
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="60dp"
+        android:text="DISCLAIMER:\n JackRush uses fake money therefore,\n no real money is earned."
+        android:textColor="@color/grey"
+        android:gravity="center"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@+id/adminButt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,27 +7,30 @@
     <LinearLayout
         android:orientation="vertical"
         android:padding="24dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tvBalance"
+            android:text="💰 Balance: 1000 chips"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingBottom="40dp"
+            />
+        <TextView
             android:id="@+id/tvGameTitle"
             android:text="JackRush"
+            android:paddingBottom="15dp"
             android:textColor="@color/white"
             android:textSize="26sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tvBalance"
-            android:text="Balance: 1000 chips"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -38,8 +41,10 @@
             android:textColorHint="@color/white"
             android:backgroundTint="@color/grey"
             android:inputType="number"
+            android:gravity="center"
             android:layout_marginBottom="16dp"
-            android:layout_width="match_parent"
+            android:paddingBottom="20dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
         <LinearLayout
@@ -87,6 +92,7 @@
         <TextView
             android:id="@+id/tvDealerHand"
             android:text="(no cards yet)"
+            android:paddingBottom="15dp"
             android:textColor="@color/grey"
             android:layout_marginBottom="12dp"
             android:layout_width="wrap_content"
@@ -105,6 +111,7 @@
             android:text="(no cards yet)"
             android:textColor="@color/grey"
             android:layout_marginBottom="16dp"
+            android:paddingBottom="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -126,4 +133,5 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
 </ScrollView>
