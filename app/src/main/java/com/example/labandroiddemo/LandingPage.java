@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,6 +51,12 @@ public class LandingPage extends AppCompatActivity {
 
         Toast.makeText(this, "LandingPage started!", Toast.LENGTH_SHORT).show();
         Log.d("LandingPage", ">>> onCreate reached");
+
+        Button playButton = findViewById(R.id.play);
+        playButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LandingPage.this, BlackJack.class);
+            startActivity(intent);
+        });
 
     }
 
@@ -151,5 +158,6 @@ public class LandingPage extends AppCompatActivity {
         sharedPrefEditor.apply();
 
     }
+
 
 }
