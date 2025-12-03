@@ -25,7 +25,7 @@ public class BlackJack extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_blackjack);
+       // setContentView(R.layout.activity_blackjack); // connect to game screen
 
         Intent intent = new Intent(this, Receiver.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
