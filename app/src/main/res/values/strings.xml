@@ -29,4 +29,6 @@
     <string name="stand">Stand</string>
     <string name="hit">Hit</string>
     <string name="deal">Deal</string>
+    <string name="channel_name">channel name\n</string>
+    <string name="channel_description">channel description</string>
 </resources>

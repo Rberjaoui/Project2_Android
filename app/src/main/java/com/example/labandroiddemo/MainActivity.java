@@ -1,5 +1,6 @@
 package com.example.labandroiddemo;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         signupButton.setOnClickListener(v -> {
-            Intent intent = new Intent (MainActivity.this, SignUp.class);
+            Intent intent = new Intent(MainActivity.this, SignUp.class);
             startActivity(intent);
         });
 
