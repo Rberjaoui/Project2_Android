@@ -24,7 +24,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         repository = BlackJackRepository.getRepository(getApplication());
         setupRecyclerView();
 
-        repository.getAllUsers().observe(this, users -> {
+        repository.getLeaderboardUsers().observe(this, users -> {
             if (users != null) {
                 adapter.setUsers(users);
             }

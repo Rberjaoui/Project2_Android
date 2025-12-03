@@ -20,7 +20,7 @@ public class Wallet {
         return amount > 0 && amount <= balance;
     }
 
-    public void win(int amount){
+    public void win(int amount) {
         if(amount > 0){
             balance += amount;
         }

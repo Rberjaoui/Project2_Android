@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @TypeConverters(LocalDateTypeConverter.class)
-@Database(entities = {BlackJack.class, User.class}, version = 1, exportSchema = false)
+@Database(entities = {BlackJack.class, User.class}, version = 4, exportSchema = false)
 public abstract class BlackJackDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
     private static final String TAG = "BlackJackDatabase";
