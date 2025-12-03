@@ -103,7 +103,7 @@
     <TextView
         android:layout_width="400dp"
         android:layout_height="60dp"
-        android:text="DISCLAIMER:\n JackRush uses fake money therefore,\n no real money is earned."
+        android:text="@string/disclaimer"
         android:textColor="@color/grey"
         android:gravity="center"
         android:textStyle="italic"
@@ -118,7 +118,7 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:onClick="sendBroadcast"
-        android:text="🏆"
+        android:text="@string/rank"
         android:backgroundTint="@color/purple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

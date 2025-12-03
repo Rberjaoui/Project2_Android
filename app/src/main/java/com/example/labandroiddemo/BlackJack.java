@@ -5,9 +5,11 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -17,16 +19,16 @@ import com.example.labandroiddemo.Receiver.Receiver;
 
 public class BlackJack extends AppCompatActivity {
 
-    private PendingIntent pendingIntent;
     private static final String CHANNEL_ID = "MESSAGE";
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blackjack);
 
         Intent intent = new Intent(this, Receiver.class);
-        pendingIntent = PendingIntent.getActivity(this,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, intent,
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 

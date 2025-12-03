@@ -61,6 +61,7 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginBottom="32dp"
+        android:contentDescription="@string/applogo"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"

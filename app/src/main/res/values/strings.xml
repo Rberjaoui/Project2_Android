@@ -31,4 +31,7 @@
     <string name="deal">Deal</string>
     <string name="channel_name">channel name\n</string>
     <string name="channel_description">channel description</string>
+    <string name="applogo">appLogo</string>
+    <string name="rank">🏆</string>
+    <string name="disclaimer">DISCLAIMER:\n JackRush uses fake money therefore,\n no real money is earned.</string>
 </resources>

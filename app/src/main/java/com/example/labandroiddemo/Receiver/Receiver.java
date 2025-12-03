@@ -26,17 +26,15 @@ public class Receiver extends BroadcastReceiver {
         String data = intent.getStringExtra("data");
         Toast.makeText(context, data, Toast.LENGTH_LONG).show();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Message Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            channel.setDescription("This channel is used for message notifications");
+        NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                "Message Channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+        );
+        channel.setDescription("This channel is used for message notifications");
 
-            NotificationManager manager = context.getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
+        NotificationManager manager = context.getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(channel);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
