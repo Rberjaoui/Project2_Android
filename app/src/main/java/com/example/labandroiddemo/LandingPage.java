@@ -3,6 +3,7 @@ package com.example.labandroiddemo;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,16 @@ public class LandingPage extends AppCompatActivity {
 
         Toast.makeText(this, "LandingPage started!", Toast.LENGTH_SHORT).show();
         Log.d("LandingPage", ">>> onCreate reached");
+
+        binding.play.setOnClickListener(v -> {
+            if (loggedInUserId != LOGGED_OUT) {
+                Intent intent = new Intent(LandingPage.this, MainActivity.class);
+                intent.putExtra(MainActivity.USER_ID_KEY, loggedInUserId);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "You must be logged in to play.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
