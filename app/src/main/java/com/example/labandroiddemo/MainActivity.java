@@ -1,26 +1,15 @@
 package com.example.labandroiddemo;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String SHARED_PREF_FILE = "com.example.labandroiddemo_preferences";
-    static final String USER_ID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
-
-    private int loggedInUserId = -1;
-
-    private Deck deck;
-    private LinearLayout playerCardContainer, dealerCardContainer;
-    private TextView turnIndicator;
-    private Button hitButton, stayButton;
+    private static final String USER_ID_KEY = "com.example.labandroiddemo.USER_ID_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -47,12 +36,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        stayButton.setOnClickListener(v -> {
-            dealerPlay();
-            hitButton.setEnabled(false);
-            stayButton.setEnabled(false);
-            turnIndicator.setText("Game Over");
+        signupButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SignUp.class);
+            startActivity(intent);
         });
+
     }
 
     private int getLoggedInUserId(){

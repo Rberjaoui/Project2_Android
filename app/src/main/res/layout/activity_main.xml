@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/navy"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+
+    android:background="@color/navy">
 
     <TextView
         android:id="@+id/dealer_label"
@@ -29,6 +30,11 @@
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@id/turn_indicator"
+        android:text="@string/log_in"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/purple"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dealer_label"
@@ -53,6 +59,11 @@
         android:layout_height="wrap_content"
         android:text="Player's Turn"
         android:textColor="@android:color/white"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/acct"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="8dp"
@@ -84,6 +95,10 @@
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@+id/hit_button"
+        android:text="@string/sign_up"
+        android:textSize="20sp"
+        android:backgroundTint="@color/purple"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
@@ -159,6 +174,13 @@
         android:layout_height="85dp"
         android:src="@drawable/card_back"
         app:layout_constraintBottom_toTopOf="@+id/player_label"
+        android:id="@+id/logoutMenuItem"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="@string/applogo"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.475"
         app:layout_constraintStart_toStartOf="parent"
@@ -175,5 +197,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/turn_indicator"
         app:layout_constraintVertical_bias="0.486" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

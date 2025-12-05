@@ -1,28 +1,37 @@
 package com.example.labandroiddemo;
 
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 
+import com.example.labandroiddemo.Receiver.Receiver;
 import com.example.labandroiddemo.database.BlackJackRepository;
 import com.example.labandroiddemo.database.entities.User;
 import com.example.labandroiddemo.databinding.LandingPageBinding;
 
 public class LandingPage extends AppCompatActivity {
+    private static final int REQ_POST_NOTIFICATIONS = 100;
 
     private int loggedInUserId = -1;
     private User user;
@@ -42,6 +51,11 @@ public class LandingPage extends AppCompatActivity {
         repository = BlackJackRepository.getRepository(getApplication());
 
         loginUser(savedInstanceState);
+
+        binding.leaderboardButton.setOnClickListener(v -> {
+            Intent intent = LeaderboardActivity.leaderboardIntentFactory(getApplicationContext());
+            startActivity(intent);
+        });
 
         Toast.makeText(this, "LandingPage started!", Toast.LENGTH_SHORT).show();
         Log.d("LandingPage", ">>> onCreate reached");
@@ -70,7 +84,7 @@ public class LandingPage extends AppCompatActivity {
         if(loggedInUserId == LOGGED_OUT){
             loggedInUserId = getIntent().getIntExtra(MAIN_ACTIVITY_USER_ID, LOGGED_OUT);
         }
-        // if not logged in return to main
+
         if(loggedInUserId == LOGGED_OUT){
             return;
         }
@@ -80,7 +94,7 @@ public class LandingPage extends AppCompatActivity {
             this.user = user;
             Log.d("LandingPage", ">>> user=" + (user == null ? "null" : user.getUsername())
                     + ", isAdmin=" + (user != null && user.isAdmin()));
-            if(this.user == null) { // user not found
+            if(this.user == null) {
                 invalidateOptionsMenu();
             }
            binding.adminTextview.setText("Welcome " + user.getUsername() + "!");
@@ -109,7 +123,7 @@ public class LandingPage extends AppCompatActivity {
         if(user == null){
             return true;
         }
-        item.setTitle(user.getUsername());
+        item.setTitle("LOG OUT");
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
@@ -122,7 +136,7 @@ public class LandingPage extends AppCompatActivity {
 
     private void showLogoutDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(LandingPage.this);
-        final AlertDialog alertDialog = alertBuilder.create(); // ensures one alert at a time; instantiates it
+        final AlertDialog alertDialog = alertBuilder.create();
 
         alertBuilder.setMessage("Logout?");
 
@@ -142,7 +156,13 @@ public class LandingPage extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
-    private void logout() { // logging the user out
+    public void sendBroadcast(View view){
+        Intent intent = new Intent(this, Receiver.class);
+        intent.putExtra("data", "Your current rank is: ");
+        sendBroadcast(intent);
+    }
+
+    private void logout() {
         loggedInUserId = LOGGED_OUT;
         updateSharedPreferences();
         getIntent().putExtra(MAIN_ACTIVITY_USER_ID,loggedInUserId);
@@ -155,6 +175,34 @@ public class LandingPage extends AppCompatActivity {
         sharedPrefEditor.putInt(getString(R.string.preference_userId_key),loggedInUserId);
         sharedPrefEditor.apply();
 
+    }
+
+    private void notificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        REQ_POST_NOTIFICATIONS
+                );
+            }
+        }
+    }
+
+    private void createNotificationChannel() {
+        CharSequence name = getString(R.string.channel_name);
+        String description = getString(R.string.channel_description);
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("CHANNEL_ID", name, importance);
+        channel.setDescription(description);
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        if(notificationManager != null) {
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 }
