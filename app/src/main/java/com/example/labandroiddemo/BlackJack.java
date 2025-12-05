@@ -37,7 +37,6 @@ public class BlackJack extends AppCompatActivity {
                 .setContentTitle("JackRush")
                 .setContentText("Your current rank is: ")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // Set the intent that fires when the user taps the notification.
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 

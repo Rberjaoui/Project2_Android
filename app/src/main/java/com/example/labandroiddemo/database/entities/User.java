@@ -13,6 +13,7 @@ public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String username;
+    private String email;
     private String password;
     private boolean isAdmin;
     private int wins;
@@ -23,13 +24,22 @@ public class User {
     public User() {}
 
     public User(String username, String password) {
+        this();
         this.username = username;
         this.password = password;
-        isAdmin = false;
+        this.isAdmin = false;
         this.wins = 0;
         this.losses = 0;
         this.balance = 500;
         this.lastPlayed = LocalDateTime.now();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getId() {
@@ -61,7 +71,7 @@ public class User {
     }
 
     public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.isAdmin = admin;
     }
 
     public int getWins() {
