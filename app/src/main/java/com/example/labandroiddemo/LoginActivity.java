@@ -34,18 +34,11 @@ public class LoginActivity extends AppCompatActivity {
                 verifyUser();
             }
         });
-
-//        binding.signUpButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ToastMaker("Sign Up button clicked!");
-//            }
-//        });
     }
 
     private void verifyUser() {
-        String username = binding.userNameLogIn.getText().toString();
-        String password = binding.passwordLogIn.getText().toString();
+        String username = binding.userNameLogIn.getText().toString().trim();
+        String password = binding.passwordLogIn.getText().toString().trim();
         if (username.isEmpty()) {
             ToastMaker("Username should not be blank!");
             return;
@@ -65,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                     else {
                         startActivity(intent);
                     }
-                    userObserver.removeObservers(this);
                     finish();
                 }
                 else {
@@ -77,7 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                 ToastMaker(String.format("No User %s found", username));
                 binding.userNameLogIn.setSelection(0);
             }
+            userObserver.removeObservers(this);
         });
+
     }
 
     private void ToastMaker(String message) {

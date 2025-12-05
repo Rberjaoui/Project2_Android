@@ -34,4 +34,5 @@
     <string name="applogo">appLogo</string>
     <string name="rank">🏆</string>
     <string name="disclaimer">DISCLAIMER:\n JackRush uses fake money therefore,\n no real money is earned.</string>
+    <string name="usernameSU">username</string>
 </resources>
