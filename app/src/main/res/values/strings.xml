@@ -18,4 +18,6 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="more">More</string>
     <string name="money">$$$</string>
+    <string name="wallet_text1">Wallet:</string>
+    <string name="wallet_view">Wallet:</string>
 </resources>
