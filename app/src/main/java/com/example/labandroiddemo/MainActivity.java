@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private int loggedInUserId = -1;
 
     private Deck deck;
+    private BlackJack game;
+
     private LinearLayout playerCardContainer, dealerCardContainer;
     private TextView turnIndicator;
     private Button hitButton, stayButton;
@@ -36,22 +38,30 @@ public class MainActivity extends AppCompatActivity {
         loggedInUserId = getLoggedInUserId();
 
         deck = new Deck();
-        deck.shuffle();
+        game = new BlackJack(deck);
+        game.startRound();
 
-        startGame();
+        showInitialCards();
 
         hitButton.setOnClickListener(v -> {
-            if (deck.hasNext()) {
-                Card newCard = deck.deal();
-                addCardToLayout(playerCardContainer, newCard);
+            game.playerHit();
+            Card[] hand = game.getPlayerHand();
+            addCardToLayout(playerCardContainer, hand[hand.length - 1]);
+
+            if (game.getPlayerValue() > 21) {
+                showDealerCards();
+                turnIndicator.setText("You Bust!");
+                hitButton.setEnabled(false);
+                stayButton.setEnabled(false);
             }
         });
 
         stayButton.setOnClickListener(v -> {
-            dealerPlay();
+            game.dealerTurn();
+            showDealerCards();
+            turnIndicator.setText(game.getResult());
             hitButton.setEnabled(false);
             stayButton.setEnabled(false);
-            turnIndicator.setText("Game Over");
         });
     }
 
@@ -60,34 +70,27 @@ public class MainActivity extends AppCompatActivity {
         return prefs.getInt(USER_ID_KEY, -1);
     }
 
-    private void startGame(){
+    private void showInitialCards(){
         playerCardContainer.removeAllViews();
         dealerCardContainer.removeAllViews();
 
-        for (int i = 0; i < 2; i++) {
-            addCardToLayout(playerCardContainer, deck.deal());
-        }
+        for (Card c : game.getPlayerHand())
+            addCardToLayout(playerCardContainer, c);
 
-        addCardToLayout(dealerCardContainer, deck.deal());
+        addCardToLayout(dealerCardContainer, game.getDealerHand()[0]);
         addCardToLayout(dealerCardContainer, null);
+    }
+
+    private void showDealerCards(){
+        dealerCardContainer.removeAllViews();
+        for (Card c : game.getDealerHand())
+            addCardToLayout(dealerCardContainer, c);
     }
 
     private void addCardToLayout(LinearLayout layout, Card card){
         ImageView img = new ImageView(this);
         img.setLayoutParams(new LinearLayout.LayoutParams(120, 170));
-        if (card != null) {
-            img.setImageResource(card.getDrawableId());
-        } else {
-            img.setImageResource(R.drawable.card_back);
-        }
+        img.setImageResource(card != null ? card.getDrawableId() : R.drawable.card_back);
         layout.addView(img);
     }
-
-    private void dealerPlay() {
-        dealerCardContainer.removeAllViews();
-        for (int i = 0; i < 2; i++) {
-            addCardToLayout(dealerCardContainer, deck.deal());
-        }
-    }
-
 }
