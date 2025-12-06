@@ -59,6 +59,7 @@ public class LandingPage extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
         wallet = prefs.getInt(MainActivity.WALLET_KEY, 1000);
+        binding.walletText.setText("Wallet: $" + wallet);
 
         int incomingWallet = getIntent().getIntExtra("wallet", -1);
         if (incomingWallet != -1) {
@@ -154,6 +155,12 @@ public class LandingPage extends AppCompatActivity {
                 binding.adminTextview.setText("Welcome Admin!");
                 binding.adminTextview.setVisibility(View.VISIBLE);
                 binding.adminButt.setVisibility(View.VISIBLE);
+
+                binding.adminButt.setOnClickListener(v -> {
+                    Intent intent = new Intent(LandingPage.this, WalletActivity.class);
+                    startActivity(intent);
+                });
+
             } else {
                 binding.adminTextview.setVisibility(View.INVISIBLE);
                 binding.adminButt.setVisibility(View.INVISIBLE);
@@ -183,6 +190,14 @@ public class LandingPage extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
+        wallet = prefs.getInt(MainActivity.WALLET_KEY, 1000);
+        binding.walletText.setText("Wallet: $" + wallet);
     }
 
     private void showLogoutDialog(){

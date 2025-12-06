@@ -11,7 +11,7 @@
         android:id="@+id/dealer_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="108dp"
         android:text="Dealer"
         android:textColor="@android:color/white"
         android:textSize="24sp"
@@ -163,7 +163,7 @@
         app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/turn_indicator"
-        app:layout_constraintVertical_bias="0.92" />
+        app:layout_constraintVertical_bias="0.563" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -175,14 +175,14 @@
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/turn_indicator"
-        app:layout_constraintVertical_bias="0.652" />
+        app:layout_constraintVertical_bias="0.33" />
 
     <Button
         android:id="@+id/retry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="316dp"
+        android:layout_marginBottom="408dp"
         android:backgroundTint="@android:color/holo_purple"
         android:text="Retry"
         android:textColor="@android:color/white"
@@ -196,13 +196,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="316dp"
+        android:layout_marginBottom="408dp"
         android:backgroundTint="@android:color/holo_purple"
         android:text="Quit"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@id/bet_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.841"
+        app:layout_constraintHorizontal_bias="0.824"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

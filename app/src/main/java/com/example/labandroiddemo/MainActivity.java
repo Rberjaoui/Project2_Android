@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addCardToLayout(LinearLayout layout, Card card){
         ImageView img = new ImageView(this);
-        img.setLayoutParams(new LinearLayout.LayoutParams(120, 170));
+        img.setLayoutParams(new LinearLayout.LayoutParams(200, 230));
         if(card != null){
             img.setImageResource(card.getDrawableId());
         } else {
