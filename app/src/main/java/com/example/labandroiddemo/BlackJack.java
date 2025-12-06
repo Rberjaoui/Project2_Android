@@ -64,7 +64,7 @@ public class BlackJack extends AppCompatActivity {
     private int playerCount = 0;
     private int dealerCount = 0;
 
-    public BlackJack(Deck deck){
+    public BlackJack(){
         this.deck = deck;
     }
 
@@ -80,8 +80,9 @@ public class BlackJack extends AppCompatActivity {
         dealerHand[dealerCount++] = deck.deal();
     }
 
-    public void playerHit() {
+    public Card playerHit() {
         playerHand[playerCount++] = deck.deal();
+        return null;
     }
 
     public void dealerTurn() {

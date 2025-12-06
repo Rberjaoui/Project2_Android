@@ -50,6 +50,8 @@ public class LandingPage extends AppCompatActivity {
         Log.d("LandingPage", ">>> onCreate: screen started");
         repository = BlackJackRepository.getRepository(getApplication());
 
+        createNotificationChannel();
+        notificationPermission();
         loginUser(savedInstanceState);
 
         binding.leaderboardButton.setOnClickListener(v -> {
