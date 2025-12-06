@@ -60,17 +60,15 @@ public class LandingPage extends AppCompatActivity {
         Toast.makeText(this, "LandingPage started!", Toast.LENGTH_SHORT).show();
         Log.d("LandingPage", ">>> onCreate reached");
 
-        Button playButton = findViewById(R.id.play);
-        playButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LandingPage.this, BlackJack.class);
-            startActivity(intent);
+        binding.play.setOnClickListener(v -> {
+            if (loggedInUserId != LOGGED_OUT) {
+                Intent intent = new Intent(LandingPage.this, MainActivity.class);
+                intent.putExtra(MainActivity.USER_ID_KEY, loggedInUserId);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "You must be logged in to play.", Toast.LENGTH_SHORT).show();
+            }
         });
-
-        createNotificationChannel();
-        notificationPermission();
-
-        Button btnNotification = findViewById(R.id.btnTestNotification);
-        btnNotification.setOnClickListener(this::sendBroadcast);
 
     }
 
