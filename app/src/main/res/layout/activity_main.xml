@@ -10,16 +10,16 @@
 
     <TextView
         android:id="@+id/dealer_label"
-        android:background="@color/purple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="108dp"
         android:text="Dealer"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/dealer_card_container"
@@ -35,28 +35,26 @@
         android:backgroundTint="@color/purple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dealer_label"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.648">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="85dp"
+            android:layout_width="100dp"
+            android:layout_height="115dp"
             android:layout_marginEnd="4dp"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="85dp"
+            android:layout_width="100dp"
+            android:layout_height="115dp"
             android:layout_marginStart="4dp"
             tools:ignore="ContentDescription" />
     </LinearLayout>
 
-
-
     <TextView
         android:id="@+id/player_label"
-        android:background="@color/purple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You"
@@ -85,14 +83,14 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="85dp"
+            android:layout_width="100dp"
+            android:layout_height="115dp"
             android:layout_marginEnd="4dp"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="85dp"
+            android:layout_width="100dp"
+            android:layout_height="115dp"
             android:layout_marginStart="4dp"
             tools:ignore="ContentDescription" />
     </LinearLayout>
@@ -126,7 +124,7 @@
 
     <TextView
         android:id="@+id/wallet_text"
-        android:background="@color/purple"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wallet:"
@@ -139,7 +137,6 @@
 
     <TextView
         android:id="@+id/bet_text"
-        android:background="@color/purple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bet:"
@@ -150,14 +147,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
     <ImageView
+        android:id="@+id/imageView4"
         android:layout_width="60dp"
         android:layout_height="85dp"
         android:src="@drawable/card_back"
         app:layout_constraintBottom_toTopOf="@+id/player_label"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.486" />
 
