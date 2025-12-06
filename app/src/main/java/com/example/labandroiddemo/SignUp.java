@@ -1,6 +1,8 @@
 package com.example.labandroiddemo;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,9 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // ARROW
+        getSupportActionBar().setTitle("");
 
         editTextUsername = findViewById(R.id.nameInput);
         editTextEmail = findViewById(R.id.emailInput);
@@ -76,6 +81,20 @@ public class SignUp extends AppCompatActivity {
                        return;
                    }
 
+
+                   // doesn't work due to LiveData
+//                   User existingEmail = userDao.getUserByUserName(username);
+//                   if(existingEmail != null){
+//                       runOnUiThread(new Runnable() {
+//                           @Override
+//                           public void run() {
+//                               Toast.makeText(SignUp.this,
+//                                       "Username is already taken", Toast.LENGTH_SHORT).show();
+//                           }
+//                       });
+//                       return;
+//                   }
+
                 User newUser = new User();
                 newUser.setUsername(username);
                 newUser.setEmail(email);
@@ -100,6 +119,23 @@ public class SignUp extends AppCompatActivity {
             }
     }).start();
 
+    }
+
+    // arrow destination
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == android.R.id.home){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // test email
+    public static boolean isValidEmail(String email){
+        return email != null && email.contains("@") && email.contains(".");
     }
 
 
