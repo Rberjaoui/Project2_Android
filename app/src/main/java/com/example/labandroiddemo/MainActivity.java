@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(result.contains("You win")){
             winStreak++;
-        }else{
+        }else if(result.contains("Dealer wins!")){
             winStreak = 0;
         }
 
