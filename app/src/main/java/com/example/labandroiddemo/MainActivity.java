@@ -1,33 +1,17 @@
 package com.example.labandroiddemo;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String SHARED_PREF_FILE = "com.example.labandroiddemo_preferences";
-    static final String USER_ID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
-    static final String WALLET_KEY = "com.example.labandroiddemo.WALLET_KEY";
-
-    private int loggedInUserId = -1;
-    private int winStreak = 0;
-    private int wallet;
-    private int betAmount;
-    private Deck deck;
-    private LinearLayout playerCardContainer, dealerCardContainer;
-    private TextView turnIndicator, winStreakText, walletText, betText;
-    private Button hitButton, stayButton, retryButton, quitButton;
-
-    private BlackJack game;
+    private static final String USER_ID_KEY = "com.example.labandroiddemo.USER_ID_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -84,10 +68,11 @@ public class MainActivity extends AppCompatActivity {
             startGame();
         });
 
-        quitButton.setOnClickListener(v -> {
-            saveWallet();
-            finish();
+        signupButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SignUp.class);
+            startActivity(intent);
         });
+
     }
 
     private int getLoggedInUserId(){

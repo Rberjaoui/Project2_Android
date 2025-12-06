@@ -29,8 +29,11 @@ public interface UserDAO {
     LiveData<User> getUserByUserName(String username);
 
     @Query("SELECT * FROM " + BlackJackDatabase.USER_TABLE + " WHERE id == :userId ")
-    LiveData<User> getUserByUserId(int userId);
+    LiveData<User> getUserByUserId(int userId); // live data?
 
-    @Query("SELECT * FROM " + BlackJackDatabase.USER_TABLE + " WHERE username == :username ")
-    User getUserByUserName_TEST(String username);
+    @Query("SELECT * FROM " + BlackJackDatabase.USER_TABLE + " ORDER BY balance DESC")
+    LiveData<List<User>> getLeaderboardUsers();
+
+    @Query("SELECT * FROM usertable WHERE email = :email LIMIT 1")
+    User getUserByEmail(String email);
 }

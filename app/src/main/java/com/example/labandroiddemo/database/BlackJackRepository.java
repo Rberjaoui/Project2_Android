@@ -54,4 +54,12 @@ public class BlackJackRepository {
     public LiveData<List<BlackJack>> getAllLogsByUserIdLiveData(int loggedInUserId) {
         return blackJackDAO.getRecordSetUserIdLiveData(loggedInUserId);
     }
+
+    public LiveData<List<User>> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+
+    public LiveData<List<User>> getLeaderboardUsers() {
+        return userDAO.getLeaderboardUsers();
+    }
 }

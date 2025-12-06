@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @TypeConverters(LocalDateTypeConverter.class)
-@Database(entities = {BlackJack.class, User.class}, version = 1, exportSchema = false)
+@Database(entities = {BlackJack.class, User.class}, version = 5, exportSchema = false)
 public abstract class BlackJackDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
     private static final String TAG = "BlackJackDatabase";
@@ -27,14 +27,13 @@ public abstract class BlackJackDatabase extends RoomDatabase {
     private static volatile BlackJackDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
-    static BlackJackDatabase getDatabase(final Context context) {
+    public static BlackJackDatabase getDatabase(final Context context) {
         if(INSTANCE == null) {
             synchronized (BlackJackDatabase.class) {
                 if(INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     BlackJackDatabase.class, DATABASE_NAME)
-                            .fallbackToDestructiveMigration()
+                            .fallbackToDestructiveMigration() //false
                             .addCallback(addDefaultValues)
                             .build();
                 }

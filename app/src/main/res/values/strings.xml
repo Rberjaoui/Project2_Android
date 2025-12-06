@@ -18,6 +18,21 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="more">More</string>
     <string name="money">$$$</string>
-    <string name="wallet_text1">Wallet:</string>
-    <string name="wallet_view">Wallet:</string>
+    <string name="acct">Already have an account?</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="log_in">LOG IN</string>
+    <string name="name">name</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="sign">Sign up</string>
+    <string name="remember_me">Remember me</string>
+    <string name="stand">Stand</string>
+    <string name="hit">Hit</string>
+    <string name="deal">Deal</string>
+    <string name="channel_name">channel name\n</string>
+    <string name="channel_description">channel description</string>
+    <string name="applogo">appLogo</string>
+    <string name="rank">🏆</string>
+    <string name="disclaimer">DISCLAIMER:\n JackRush uses fake money therefore,\n no real money is earned.</string>
+    <string name="usernameSU">username</string>
 </resources>
