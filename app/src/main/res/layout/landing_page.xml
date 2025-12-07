@@ -44,20 +44,6 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
        android:hint="@string/money"
-    <TextView
-        android:id="@+id/howtoplay"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:text="How to play: \n ... \n ..."
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:textSize="17sp"
-        app:layout_constraintTop_toBottomOf="@+id/phrase"
-        app:layout_constraintVertical_bias="0.06"
-        tools:layout_editor_absoluteX="-5dp" />
 
     <Button
         android:id="@+id/play"
@@ -132,6 +118,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.099"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/wallet_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wallet:"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
