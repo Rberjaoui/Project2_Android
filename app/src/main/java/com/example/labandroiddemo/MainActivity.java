@@ -1,6 +1,5 @@
 package com.example.labandroiddemo;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,67 +9,85 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.lifecycle.LiveData;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.labandroiddemo.database.BlackJackRepository;
 import com.example.labandroiddemo.database.entities.User;
-import java.time.LocalDateTime;
 
 public class MainActivity extends AppCompatActivity {
-    static final String USER_ID_KEY = "com.example.labandroiddemo.USER_ID_KEY";
     private static final String SHARED_PREF_FILE = "com.example.labandroiddemo.PREFERENCES";
-    private LinearLayout playerCardContainer;
-    private LinearLayout dealerCardContainer;
-    private TextView turnIndicator;
-    private Button hitButton;
-    private Button stayButton;
-    private BlackJack game;
-    private BlackJackRepository repository;
-    private User currentUser;
-    private int loggedInUserId;
+    static final String USER_ID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
+    private static final String WALLET_KEY = "com.example.labandroiddemo.WALLET_KEY";
+    private int loggedInUserId = -1;
+    private int winStreak = 0;
+    private int wallet;
+    private int betAmount;
+    private Deck deck;
+    private LinearLayout playerCardContainer, dealerCardContainer;
+    private TextView turnIndicator, winStreakText, walletText, betText;
+    private Button hitButton, stayButton, retryButton, quitButton;
+
+    private BlackJackGame game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        repository = BlackJackRepository.getRepository(getApplication());
-
         playerCardContainer = findViewById(R.id.player_card_container);
         dealerCardContainer = findViewById(R.id.dealer_card_container);
         turnIndicator = findViewById(R.id.turn_indicator);
         hitButton = findViewById(R.id.hit_button);
         stayButton = findViewById(R.id.stay_button);
+        retryButton = findViewById(R.id.retry_button);
+        quitButton = findViewById(R.id.quit_button);
+        winStreakText = findViewById(R.id.win_streak_text);
+        walletText = findViewById(R.id.wallet_text);
+        betText = findViewById(R.id.bet_text);
 
-        loggedInUserId = getIntent().getIntExtra(USER_ID_KEY, -1);
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
+        wallet = getIntent().getIntExtra("wallet", getSavedWallet());
+        betAmount = getIntent().getIntExtra("bet", 0);
+        loggedInUserId = getLoggedInUserId();
 
-        if (loggedInUserId != -1) {
-            LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
-            userObserver.observe(this, user -> {
-                this.currentUser = user;
-                userObserver.removeObservers(this);
-            });
-        }
+        walletText.setText("Wallet: " + wallet);
+        betText.setText("Bet: " + betAmount);
 
-        game = new BlackJack();
+        deck = new Deck();
+        deck.shuffle();
+        game = new BlackJackGame(deck);
+
         startGame();
 
         hitButton.setOnClickListener(v -> {
-            Card newCard = game.playerHit();
-            addCardToLayout(playerCardContainer, newCard);
-
-            if (game.getPlayerValue() > 21) {
-                endRound("You Bust!", -100);
+            game.playerHit();
+            addCardToLayout(playerCardContainer, game.getPlayerHand()[game.getPlayerHand().length - 1]);
+            if(game.getPlayerValue() > 21){
+                endRound();
             }
         });
 
-        stayButton.setOnClickListener(v -> {
-            game.dealerTurn();
-            updateDealerUI();
-            checkWinner();
+        stayButton.setOnClickListener(v -> endRound());
+
+        retryButton.setOnClickListener(v -> {
+            if(wallet <= 0) {
+                finish();
+                return;
+            }
+            hitButton.setEnabled(true);
+            stayButton.setEnabled(true);
+            retryButton.setVisibility(View.GONE);
+            quitButton.setVisibility(View.GONE);
+            deck = new Deck();
+            deck.shuffle();
+            game = new BlackJackGame(deck);
+            startGame();
+        });
+
+        quitButton.setOnClickListener(v -> {
+            saveWallet();
+            finish();
         });
     }
 
@@ -79,38 +96,41 @@ public class MainActivity extends AppCompatActivity {
         return prefs.getInt(USER_ID_KEY, -1);
     }
 
-    private void startGame(){
-        game.startRound();
+    private int getSavedWallet() {
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
+        return prefs.getInt(WALLET_KEY, 1000);
+    }
 
+    private void startGame() {
         playerCardContainer.removeAllViews();
         dealerCardContainer.removeAllViews();
-        hitButton.setEnabled(true);
-        stayButton.setEnabled(true);
-        turnIndicator.setText("Your Turn");
+
+        game.startRound();
 
         for (Card c : game.getPlayerHand()) {
             addCardToLayout(playerCardContainer, c);
         }
 
+        Card[] dealerHand = game.getDealerHand();
+        addCardToLayout(dealerCardContainer, dealerHand[0]);
 
-        Card[] dealerCards = game.getDealerHand();
-        if (dealerCards.length > 0) {
-            addCardToLayout(dealerCardContainer, dealerCards[0]);
-            addCardToLayout(dealerCardContainer, null);
-        }
-    }
+        ImageView hidden = new ImageView(this);
+        hidden.setLayoutParams(new LinearLayout.LayoutParams(120, 170));
+        hidden.setImageResource(R.drawable.card_back);
+        dealerCardContainer.addView(hidden);
 
-    private void updateDealerUI() {
-        dealerCardContainer.removeAllViews();
-        for (Card c : game.getDealerHand()) {
-            addCardToLayout(dealerCardContainer, c);
-        }
+        turnIndicator.setText("Player's Turn");
+        winStreakText.setText("\uD83D\uDD25 : " + winStreak);
+        walletText.setText("Wallet: " + wallet);
+        betText.setText("Bet: " + betAmount);
+        retryButton.setVisibility(View.GONE);
+        quitButton.setVisibility(View.GONE);
     }
 
     private void addCardToLayout(LinearLayout layout, Card card){
         ImageView img = new ImageView(this);
-        img.setLayoutParams(new LinearLayout.LayoutParams(120, 170));
-        if (card != null) {
+        img.setLayoutParams(new LinearLayout.LayoutParams(200, 230));
+        if(card != null){
             img.setImageResource(card.getDrawableId());
         } else {
             img.setImageResource(R.drawable.card_back);
@@ -118,48 +138,42 @@ public class MainActivity extends AppCompatActivity {
         layout.addView(img);
     }
 
-    private void checkWinner() {
-        int p = game.getPlayerValue();
-        int d = game.getDealerValue();
-        String msg;
-        int moneyChange;
-
-        if (p > 21) {
-            msg = "You bust!";
-            moneyChange = -100;
-        } else if (d > 21) {
-            msg = "Dealer busts! You win!";
-            moneyChange = 100;
-        } else if (p > d) {
-            msg = "You win!";
-            moneyChange = 100;
-        } else if (d > p) {
-            msg = "Dealer wins!";
-            moneyChange = -100;
-        } else {
-            msg = "Tie!";
-            moneyChange = 0;
+    private void dealerPlay(){
+        game.dealerTurn();
+        dealerCardContainer.removeAllViews();
+        for(Card c : game.getDealerHand()){
+            addCardToLayout(dealerCardContainer, c);
         }
-        endRound(msg, moneyChange);
     }
 
-    private void endRound(String message, int moneyChange) {
+    private void endRound(){
+        dealerPlay();
         hitButton.setEnabled(false);
         stayButton.setEnabled(false);
-        turnIndicator.setText(message);
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
-        if (currentUser != null) {
-            if (moneyChange > 0) {
-                currentUser.setWins(currentUser.getWins() + 1);
-                currentUser.setBalance(currentUser.getBalance() + moneyChange);
-            } else if (moneyChange < 0) {
-                currentUser.setLosses(currentUser.getLosses() + 1);
-                currentUser.setBalance(currentUser.getBalance() + moneyChange); // Assumes subtraction
-            }
-            currentUser.setLastPlayed(LocalDateTime.now());
+        String result = game.getResult();
+        turnIndicator.setText(result);
 
-            repository.insertUser(currentUser);
+        if(result.contains("You win")) {
+            winStreak++;
+            wallet += betAmount;
+        } else if(result.contains("Dealer wins") || result.contains("You bust")) {
+            winStreak = 0;
+            wallet -= betAmount;
         }
+
+        winStreakText.setText("\uD83D\uDD25 : " + winStreak);
+        walletText.setText("Wallet: " + wallet);
+        saveWallet();
+
+        retryButton.setVisibility(View.VISIBLE);
+        quitButton.setVisibility(View.VISIBLE);
+    }
+
+    private void saveWallet() {
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(WALLET_KEY, wallet);
+        editor.apply();
     }
 }

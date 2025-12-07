@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == android.R.id.home){
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, FirstPage.class);
             startActivity(intent);
             finish();
             return true;

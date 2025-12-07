@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,13 +73,13 @@ public class LandingPage extends AppCompatActivity {
         Log.d("LandingPage", ">>> onCreate reached");
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        wallet = prefs.getInt(MainActivity.WALLET_KEY, 1000);
+        wallet = prefs.getInt(WALLET_KEY, 1000);
         binding.walletText.setText("Wallet: $" + wallet);
 
         int incomingWallet = getIntent().getIntExtra("wallet", -1);
         if (incomingWallet != -1) {
             wallet = incomingWallet;
-            prefs.edit().putInt(MainActivity.WALLET_KEY, wallet).apply();
+            prefs.edit().putInt(WALLET_KEY, wallet).apply();
         }
 
         betInput = findViewById(R.id.Bet);
@@ -103,7 +104,7 @@ public class LandingPage extends AppCompatActivity {
                 int betAmount;
                 try {
                     betAmount = Integer.parseInt(betStr);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     Toast.makeText(this, "Invalid bet", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -210,7 +211,7 @@ public class LandingPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        wallet = prefs.getInt(MainActivity.WALLET_KEY, 1000);
+        wallet = prefs.getInt(WALLET_KEY, 1000);
         binding.walletText.setText("Wallet: $" + wallet);
     }
 
@@ -284,5 +285,4 @@ public class LandingPage extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
 }

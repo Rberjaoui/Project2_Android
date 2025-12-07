@@ -17,7 +17,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.labandroiddemo.Receiver.Receiver;
 
-public class BlackJack extends AppCompatActivity {
+public class BlackJackGame extends AppCompatActivity {
 
     private static final String CHANNEL_ID = "MESSAGE";
 
@@ -64,8 +64,8 @@ public class BlackJack extends AppCompatActivity {
     private int playerCount = 0;
     private int dealerCount = 0;
 
-    public BlackJack(){
-        this.deck = deck;
+    public BlackJackGame(Deck incomingDeck) {
+        this.deck = incomingDeck;
     }
 
     public void startRound(){
