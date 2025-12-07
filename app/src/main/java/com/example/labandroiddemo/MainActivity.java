@@ -11,14 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
 import com.example.labandroiddemo.database.BlackJackRepository;
 import com.example.labandroiddemo.database.entities.User;
 
+import java.time.LocalDateTime;
+
 public class MainActivity extends AppCompatActivity {
-    private static final String SHARED_PREF_FILE = "com.example.labandroiddemo.PREFERENCES";
+
+    private static final String SHARED_PREF_FILE = "com.example.labandroiddemo_preferences";
     static final String USER_ID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
-    private static final String WALLET_KEY = "com.example.labandroiddemo.WALLET_KEY";
+    static final String WALLET_KEY = "com.example.labandroiddemo.WALLET_KEY";
+
     private int loggedInUserId = -1;
     private int winStreak = 0;
     private Wallet wallet;
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private Button hitButton, stayButton, retryButton, quitButton;
 
     private BlackJackGame game;
+    private BlackJackRepository repository;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -46,11 +53,15 @@ public class MainActivity extends AppCompatActivity {
         walletText = findViewById(R.id.wallet_text);
         betText = findViewById(R.id.bet_text);
 
+        repository = BlackJackRepository.getRepository(getApplication());
+
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
         int walletBalance = getIntent().getIntExtra("wallet", getSavedWallet());
         wallet = new Wallet(walletBalance);
         betAmount = getIntent().getIntExtra("bet", 0);
         loggedInUserId = getLoggedInUserId();
+
+        loadCurrentUser();
 
         walletText.setText("Wallet: " + wallet.getBalance());
         betText.setText("Bet: " + betAmount);
@@ -72,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         stayButton.setOnClickListener(v -> endRound());
 
         retryButton.setOnClickListener(v -> {
-            if(wallet.getBalance() <= 0){
+            if(wallet.getBalance() <= 0) {
                 finish();
                 return;
             }
@@ -92,6 +103,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void loadCurrentUser() {
+        if (loggedInUserId != -1) {
+            LiveData<User> userLiveData = repository.getUserByUserId(loggedInUserId);
+            userLiveData.observe(this, user -> {
+                if (user != null) {
+                    currentUser = user;
+                }
+            });
+        }
+    }
+
     private int getLoggedInUserId(){
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
         return prefs.getInt(USER_ID_KEY, -1);
@@ -102,17 +124,19 @@ public class MainActivity extends AppCompatActivity {
         return prefs.getInt(WALLET_KEY, Wallet.DEFAULT_BALANCE);
     }
 
-    private void startGame() {
+
+    private void startGame(){
         playerCardContainer.removeAllViews();
         dealerCardContainer.removeAllViews();
 
         game.startRound();
 
-        for (Card c : game.getPlayerHand()) {
+        for(Card c : game.getPlayerHand()){
             addCardToLayout(playerCardContainer, c);
         }
 
         Card[] dealerHand = game.getDealerHand();
+
         addCardToLayout(dealerCardContainer, dealerHand[0]);
 
         ImageView hidden = new ImageView(this);
@@ -158,9 +182,11 @@ public class MainActivity extends AppCompatActivity {
         if(result.contains("You win")) {
             winStreak++;
             wallet.win(betAmount);
+            updateUserStats(true);
         } else if(result.contains("Dealer wins") || result.contains("You bust")) {
             winStreak = 0;
             wallet.lose(betAmount);
+            updateUserStats(false);
         }
 
         winStreakText.setText("\uD83D\uDD25 : " + winStreak);
@@ -169,6 +195,32 @@ public class MainActivity extends AppCompatActivity {
 
         retryButton.setVisibility(View.VISIBLE);
         quitButton.setVisibility(View.VISIBLE);
+    }
+
+    private void updateUserStats(boolean isWin) {
+        if (currentUser != null) {
+            User updatedUser = new User();
+            updatedUser.setId(currentUser.getId());
+            updatedUser.setUsername(currentUser.getUsername());
+            updatedUser.setPassword(currentUser.getPassword());
+            updatedUser.setEmail(currentUser.getEmail());
+            updatedUser.setAdmin(currentUser.isAdmin());
+
+            if (isWin) {
+                updatedUser.setWins(currentUser.getWins() + 1);
+                updatedUser.setLosses(currentUser.getLosses());
+            } else {
+                updatedUser.setWins(currentUser.getWins());
+                updatedUser.setLosses(currentUser.getLosses() + 1);
+            }
+
+            updatedUser.setBalance(wallet.getBalance());
+            updatedUser.setLastPlayed(LocalDateTime.now());
+
+            repository.insertUser(updatedUser);
+
+            currentUser = updatedUser;
+        }
     }
 
     private void saveWallet() {
