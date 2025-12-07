@@ -9,9 +9,9 @@
 
     <TextView
         android:id="@+id/dealer_label"
+        android:background="@color/purple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
         android:text="Dealer"
         android:textColor="@android:color/white"
         android:textSize="24sp"

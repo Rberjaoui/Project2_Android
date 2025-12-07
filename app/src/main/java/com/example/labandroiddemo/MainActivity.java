@@ -12,12 +12,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.labandroiddemo.database.BlackJackRepository;
+import com.example.labandroiddemo.database.entities.User;
+
 public class MainActivity extends AppCompatActivity {
-
-    private static final String SHARED_PREF_FILE = "com.example.labandroiddemo_preferences";
+    private static final String SHARED_PREF_FILE = "com.example.labandroiddemo.PREFERENCES";
     static final String USER_ID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
-    static final String WALLET_KEY = "com.example.labandroiddemo.WALLET_KEY";
-
+    private static final String WALLET_KEY = "com.example.labandroiddemo.WALLET_KEY";
     private int loggedInUserId = -1;
     private int winStreak = 0;
     private Wallet wallet;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView turnIndicator, winStreakText, walletText, betText;
     private Button hitButton, stayButton, retryButton, quitButton;
 
-    private BlackJack game;
+    private BlackJackGame game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         deck = new Deck();
         deck.shuffle();
-        game = new BlackJack(deck);
+        game = new BlackJackGame(deck);
 
         startGame();
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             quitButton.setVisibility(View.GONE);
             deck = new Deck();
             deck.shuffle();
-            game = new BlackJack(deck);
+            game = new BlackJackGame(deck);
             startGame();
         });
 
@@ -101,19 +102,17 @@ public class MainActivity extends AppCompatActivity {
         return prefs.getInt(WALLET_KEY, Wallet.DEFAULT_BALANCE);
     }
 
-
-    private void startGame(){
+    private void startGame() {
         playerCardContainer.removeAllViews();
         dealerCardContainer.removeAllViews();
 
         game.startRound();
 
-        for(Card c : game.getPlayerHand()){
+        for (Card c : game.getPlayerHand()) {
             addCardToLayout(playerCardContainer, c);
         }
 
         Card[] dealerHand = game.getDealerHand();
-
         addCardToLayout(dealerCardContainer, dealerHand[0]);
 
         ImageView hidden = new ImageView(this);

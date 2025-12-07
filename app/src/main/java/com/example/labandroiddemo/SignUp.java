@@ -137,6 +137,4 @@ public class SignUp extends AppCompatActivity {
     public static boolean isValidEmail(String email){
         return email != null && email.contains("@") && email.contains(".");
     }
-
-
 }
