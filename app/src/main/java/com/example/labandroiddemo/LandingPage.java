@@ -41,7 +41,7 @@ public class LandingPage extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private EditText betInput;
     private Button playButton;
-    private int wallet = 1000;
+    private Wallet wallet;
     static final String SHARED_PREFERENCE_USERID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
 
     private static final String MAIN_ACTIVITY_USER_ID = "com.example.labandroiddemo.MAIN_ACTIVITY_USER_ID";
@@ -71,19 +71,20 @@ public class LandingPage extends AppCompatActivity {
         Log.d("LandingPage", ">>> onCreate reached");
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        wallet = prefs.getInt(MainActivity.WALLET_KEY, 1000);
-        binding.walletText.setText("Wallet: $" + wallet);
+        int walletBalance = prefs.getInt(MainActivity.WALLET_KEY, Wallet.DEFAULT_BALANCE);
+        wallet = new Wallet(walletBalance);
+        binding.walletText.setText("Wallet: $" + wallet.getBalance());
 
         int incomingWallet = getIntent().getIntExtra("wallet", -1);
         if (incomingWallet != -1) {
-            wallet = incomingWallet;
-            prefs.edit().putInt(MainActivity.WALLET_KEY, wallet).apply();
+            wallet.reset(incomingWallet);
+            prefs.edit().putInt(MainActivity.WALLET_KEY, wallet.getBalance()).apply();
         }
 
         betInput = findViewById(R.id.Bet);
         playButton = binding.play;
 
-        binding.walletText.setText("Wallet: $" + wallet);
+        binding.walletText.setText("Wallet: $" + wallet.getBalance());
 
         binding.play.setOnClickListener(v -> {
             if (loggedInUserId != LOGGED_OUT) {
@@ -112,17 +113,17 @@ public class LandingPage extends AppCompatActivity {
                     return;
                 }
 
-                if (betAmount > wallet) {
+                if (!wallet.betAmount(betAmount)) {
                     Toast.makeText(this, "Not enough money", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                saveWallet(wallet);
+                saveWallet(wallet.getBalance());
 
 
                 Intent intent = new Intent(LandingPage.this, MainActivity.class);
                 intent.putExtra(MainActivity.USER_ID_KEY, loggedInUserId);
-                intent.putExtra("wallet", wallet);
+                intent.putExtra("wallet", wallet.getBalance());
                 intent.putExtra("bet", betAmount);
                 startActivity(intent);
             } else {
@@ -162,7 +163,7 @@ public class LandingPage extends AppCompatActivity {
             if(this.user == null) {
                 invalidateOptionsMenu();
             }
-           binding.adminTextview.setText("Welcome " + user.getUsername() + "!");
+            binding.adminTextview.setText("Welcome " + user.getUsername() + "!");
 
             if(user.isAdmin()){
                 binding.adminTextview.setText("Welcome Admin!");
@@ -209,8 +210,9 @@ public class LandingPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        wallet = prefs.getInt(MainActivity.WALLET_KEY, 1000);
-        binding.walletText.setText("Wallet: $" + wallet);
+        int walletBalance = prefs.getInt(MainActivity.WALLET_KEY,Wallet.DEFAULT_BALANCE);
+        wallet.reset(walletBalance);
+        binding.walletText.setText("Wallet: $" + wallet.getBalance());
     }
 
     private void showLogoutDialog(){

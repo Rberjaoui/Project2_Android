@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int loggedInUserId = -1;
     private int winStreak = 0;
-    private int wallet;
+    private Wallet wallet;
     private int betAmount;
     private Deck deck;
     private LinearLayout playerCardContainer, dealerCardContainer;
@@ -46,11 +46,12 @@ public class MainActivity extends AppCompatActivity {
         betText = findViewById(R.id.bet_text);
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        wallet = getIntent().getIntExtra("wallet", getSavedWallet());
+        int walletBalance = getIntent().getIntExtra("wallet", getSavedWallet());
+        wallet = new Wallet(walletBalance);
         betAmount = getIntent().getIntExtra("bet", 0);
         loggedInUserId = getLoggedInUserId();
 
-        walletText.setText("Wallet: " + wallet);
+        walletText.setText("Wallet: " + wallet.getBalance());
         betText.setText("Bet: " + betAmount);
 
         deck = new Deck();
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         stayButton.setOnClickListener(v -> endRound());
 
         retryButton.setOnClickListener(v -> {
-            if(wallet <= 0) {
+            if(wallet.getBalance() <= 0){
                 finish();
                 return;
             }
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int getSavedWallet() {
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        return prefs.getInt(WALLET_KEY, 1000);
+        return prefs.getInt(WALLET_KEY, Wallet.DEFAULT_BALANCE);
     }
 
 
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         turnIndicator.setText("Player's Turn");
         winStreakText.setText("\uD83D\uDD25 : " + winStreak);
-        walletText.setText("Wallet: " + wallet);
+        walletText.setText("Wallet: " + wallet.getBalance());
         betText.setText("Bet: " + betAmount);
         retryButton.setVisibility(View.GONE);
         quitButton.setVisibility(View.GONE);
@@ -157,14 +158,14 @@ public class MainActivity extends AppCompatActivity {
 
         if(result.contains("You win")) {
             winStreak++;
-            wallet += betAmount;
+            wallet.win(betAmount);
         } else if(result.contains("Dealer wins") || result.contains("You bust")) {
             winStreak = 0;
-            wallet -= betAmount;
+            wallet.lose(betAmount);
         }
 
         winStreakText.setText("\uD83D\uDD25 : " + winStreak);
-        walletText.setText("Wallet: " + wallet);
+        walletText.setText("Wallet: " + wallet.getBalance());
         saveWallet();
 
         retryButton.setVisibility(View.VISIBLE);
@@ -174,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     private void saveWallet() {
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(WALLET_KEY, wallet);
+        editor.putInt(WALLET_KEY, wallet.getBalance());
         editor.apply();
     }
 }

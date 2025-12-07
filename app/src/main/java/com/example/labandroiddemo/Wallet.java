@@ -2,10 +2,12 @@ package com.example.labandroiddemo;
 
 public class Wallet {
 
+    public static final int DEFAULT_BALANCE = 500;
+
     private int balance;
 
     public Wallet() {
-        this.balance = 0;
+        this.balance = DEFAULT_BALANCE;
     }
 
     public Wallet(int initBalance) {

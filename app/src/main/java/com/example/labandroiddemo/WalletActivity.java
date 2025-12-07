@@ -16,6 +16,7 @@ public class WalletActivity extends AppCompatActivity {
 
     private EditText walletInput;
     private Button saveButton;
+    private Wallet wallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,8 @@ public class WalletActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
         int currentWallet = prefs.getInt(WALLET_KEY, 1000);
-        walletInput.setText(String.valueOf(currentWallet));
+        wallet = new Wallet(currentWallet);
+        walletInput.setText(String.valueOf(wallet.getBalance()));
 
         saveButton.setOnClickListener(v -> {
             String input = walletInput.getText().toString().trim();
@@ -50,8 +52,9 @@ public class WalletActivity extends AppCompatActivity {
                 Toast.makeText(this, "Amount must be positive", Toast.LENGTH_SHORT).show();
                 return;
             }
+            wallet.reset(newAmount);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(WALLET_KEY, newAmount);
+            editor.putInt(WALLET_KEY, wallet.getBalance());
             editor.apply();
             Toast.makeText(this, "Wallet updated!", Toast.LENGTH_SHORT).show();
             finish();
