@@ -1,17 +1,33 @@
 package com.example.labandroiddemo;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String USER_ID_KEY = "com.example.labandroiddemo.USER_ID_KEY";
+
+    private static final String SHARED_PREF_FILE = "com.example.labandroiddemo_preferences";
+    static final String USER_ID_KEY = "com.example.labandroiddemo.SHARED_PREFERENCE_USERID_KEY";
+    static final String WALLET_KEY = "com.example.labandroiddemo.WALLET_KEY";
+
+    private int loggedInUserId = -1;
+    private int winStreak = 0;
+    private int wallet;
+    private int betAmount;
+    private Deck deck;
+    private LinearLayout playerCardContainer, dealerCardContainer;
+    private TextView turnIndicator, winStreakText, walletText, betText;
+    private Button hitButton, stayButton, retryButton, quitButton;
+
+    private BlackJack game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -68,11 +84,10 @@ public class MainActivity extends AppCompatActivity {
             startGame();
         });
 
-        signupButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SignUp.class);
-            startActivity(intent);
+        quitButton.setOnClickListener(v -> {
+            saveWallet();
+            finish();
         });
-
     }
 
     private int getLoggedInUserId(){
@@ -96,9 +111,14 @@ public class MainActivity extends AppCompatActivity {
             addCardToLayout(playerCardContainer, c);
         }
 
-        for(Card c : game.getDealerHand()){
-            addCardToLayout(dealerCardContainer, c);
-        }
+        Card[] dealerHand = game.getDealerHand();
+
+        addCardToLayout(dealerCardContainer, dealerHand[0]);
+
+        ImageView hidden = new ImageView(this);
+        hidden.setLayoutParams(new LinearLayout.LayoutParams(120, 170));
+        hidden.setImageResource(R.drawable.card_back);
+        dealerCardContainer.addView(hidden);
 
         turnIndicator.setText("Player's Turn");
         winStreakText.setText("\uD83D\uDD25 : " + winStreak);
