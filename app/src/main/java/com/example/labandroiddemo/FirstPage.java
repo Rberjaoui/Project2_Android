@@ -26,7 +26,8 @@ public class FirstPage extends AppCompatActivity {
         });
 
         signupButton.setOnClickListener(v -> {
-            Toast.makeText(FirstPage.this, "Coming soon...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(FirstPage.this, SignUp.class);
+            startActivity(intent);
         });
     }
 
