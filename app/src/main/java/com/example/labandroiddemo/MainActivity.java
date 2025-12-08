@@ -59,7 +59,11 @@ public class MainActivity extends AppCompatActivity {
         int walletBalance = getIntent().getIntExtra("wallet", getSavedWallet());
         wallet = new Wallet(walletBalance);
         betAmount = getIntent().getIntExtra("bet", 0);
-        loggedInUserId = getLoggedInUserId();
+        loggedInUserId = getIntent().getIntExtra(USER_ID_KEY, -1);
+
+        repository.getUserByUserId(loggedInUserId).observe(this, user -> {
+            this.currentUser = user;
+        });
 
         loadCurrentUser();
 
@@ -182,16 +186,35 @@ public class MainActivity extends AppCompatActivity {
         if(result.contains("You win")) {
             winStreak++;
             wallet.win(betAmount);
-            updateUserStats(true);
-        } else if(result.contains("Dealer wins") || result.contains("You bust")) {
+
+            if (currentUser != null) {
+                currentUser.setWins(currentUser.getWins() + 1);
+                currentUser.setBalance(wallet.getBalance());
+            }
+
+        }
+        else if(result.contains("Dealer wins") || result.contains("You bust")) {
             winStreak = 0;
             wallet.lose(betAmount);
-            updateUserStats(false);
+
+            if (currentUser != null) {
+                currentUser.setLosses(currentUser.getLosses() + 1);
+                currentUser.setBalance(wallet.getBalance());
+            }
+        }
+        else {
+            if (currentUser != null) {
+                currentUser.setBalance(wallet.getBalance());
+            }
         }
 
         winStreakText.setText("\uD83D\uDD25 : " + winStreak);
         walletText.setText("Wallet: " + wallet.getBalance());
         saveWallet();
+
+        if (currentUser != null) {
+            repository.updateUser(currentUser);
+        }
 
         retryButton.setVisibility(View.VISIBLE);
         quitButton.setVisibility(View.VISIBLE);
