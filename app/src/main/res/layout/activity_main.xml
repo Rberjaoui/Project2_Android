@@ -9,9 +9,9 @@
 
     <TextView
         android:id="@+id/dealer_label"
-        android:background="@color/purple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
         android:text="Dealer"
         android:textColor="@android:color/white"
         android:textSize="24sp"
@@ -33,7 +33,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dealer_label"
-        app:layout_constraintVertical_bias="0.648">
+        app:layout_constraintVertical_bias="0.12">
 
         <ImageView
             android:layout_width="100dp"
