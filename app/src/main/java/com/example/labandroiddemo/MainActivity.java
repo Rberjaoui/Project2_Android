@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
             updatedUser.setBalance(wallet.getBalance());
             updatedUser.setLastPlayed(LocalDateTime.now());
 
-            repository.insertUser(updatedUser);
+            repository.updateUser(updatedUser);
 
             currentUser = updatedUser;
         }

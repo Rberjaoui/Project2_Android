@@ -62,4 +62,10 @@ public class BlackJackRepository {
     public LiveData<List<User>> getLeaderboardUsers() {
         return userDAO.getLeaderboardUsers();
     }
+
+    public void updateUser(User user) {
+        BlackJackDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.update(user);
+        });
+    }
 }
