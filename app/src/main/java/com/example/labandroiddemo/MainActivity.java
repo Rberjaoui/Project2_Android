@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int getSavedWallet() {
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        return prefs.getInt(WALLET_KEY, Wallet.DEFAULT_BALANCE);
+        String userWalletKey = WALLET_KEY + loggedInUserId;
+        return prefs.getInt(userWalletKey, Wallet.DEFAULT_BALANCE);
     }
 
 
@@ -249,7 +250,8 @@ public class MainActivity extends AppCompatActivity {
     private void saveWallet() {
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(WALLET_KEY, wallet.getBalance());
+        String userWalletKey = WALLET_KEY + loggedInUserId;
+        editor.putInt(userWalletKey, wallet.getBalance());
         editor.apply();
     }
 }

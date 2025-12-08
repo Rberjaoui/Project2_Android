@@ -71,7 +71,8 @@ public class LandingPage extends AppCompatActivity {
         Log.d("LandingPage", ">>> onCreate reached");
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        int walletBalance = prefs.getInt(MainActivity.WALLET_KEY, Wallet.DEFAULT_BALANCE);
+        String userWalletKey = WALLET_KEY + loggedInUserId;
+        int walletBalance = prefs.getInt(userWalletKey, Wallet.DEFAULT_BALANCE);
         wallet = new Wallet(walletBalance);
         binding.walletText.setText("Wallet: $" + wallet.getBalance());
 
@@ -135,7 +136,8 @@ public class LandingPage extends AppCompatActivity {
 
     private void saveWallet(int amount){
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
-        prefs.edit().putInt(WALLET_KEY, amount).apply();
+        String userWalletKey = WALLET_KEY + loggedInUserId;
+        prefs.edit().putInt(userWalletKey, amount).apply();
     }
 
     private void loginUser(Bundle savedInstanceState) {
@@ -210,7 +212,8 @@ public class LandingPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        int walletBalance = prefs.getInt(MainActivity.WALLET_KEY,Wallet.DEFAULT_BALANCE);
+        String userWalletKey = WALLET_KEY + loggedInUserId;
+        int walletBalance = prefs.getInt(userWalletKey,Wallet.DEFAULT_BALANCE);
         wallet.reset(walletBalance);
         binding.walletText.setText("Wallet: $" + wallet.getBalance());
     }

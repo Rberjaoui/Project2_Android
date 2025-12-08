@@ -39,7 +39,8 @@ public class WalletActivity extends AppCompatActivity {
         repository = BlackJackRepository.getRepository(getApplication());
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        int currentWallet = prefs.getInt(WALLET_KEY, Wallet.DEFAULT_BALANCE);
+        String userWalletKey = WALLET_KEY + loggedInUserId;
+        int currentWallet = prefs.getInt(userWalletKey, Wallet.DEFAULT_BALANCE);
         loggedInUserId = prefs.getInt(USER_ID_KEY, -1);
 
         wallet = new Wallet(currentWallet);
@@ -72,7 +73,7 @@ public class WalletActivity extends AppCompatActivity {
             wallet.reset(newAmount);
 
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(WALLET_KEY, wallet.getBalance());
+            editor.putInt(userWalletKey, wallet.getBalance());
             editor.apply();
 
             if(currentUser != null) {
